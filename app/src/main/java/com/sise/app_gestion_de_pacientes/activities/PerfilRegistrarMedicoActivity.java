@@ -54,6 +54,7 @@ public class PerfilRegistrarMedicoActivity extends AppCompatActivity {
         spTipoDocumento.setAdapter(adapterTipoDoc);
 
         // ViewModels
+
         medicoViewModel = new ViewModelProvider(this).get(MedicoViewModel.class);
         especialidadViewModel = new ViewModelProvider(this).get(EspecialidadViewModel.class);
 

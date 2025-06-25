@@ -89,11 +89,11 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     // Este método ya no se necesita, puedes borrarlo si quieres
-    public void onClickMenuActivity(View view){
+    /*public void onClickMenuActivity(View view){
         Intent intent = new Intent(this, MenuActivity.class);
         EditText etUsuario = findViewById(R.id.etUsuario);
         String nombreUsuario = etUsuario.getText().toString();
         intent.putExtra("nombre_usuario", nombreUsuario);
         startActivity(intent);
-    }
+    }*/
 }
