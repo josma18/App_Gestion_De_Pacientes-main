@@ -10,29 +10,31 @@ import com.sise.app_gestion_de_pacientes.shared.HttpUtil;
 
 public class MedicoRepository {
     public void insertarMedico(Medico medico, Callback<Medico> callback) {
-        try {
-            String response = HttpUtil.POST(Constants.BASE_URL_API, "/medicos", new Gson().toJson(medico));
-            if (response == null) {
-                callback.onFailure();
-                return;
-            }
-            BaseResponse<Medico> baseResponse = new Gson().fromJson(
-                    response,
-                    TypeToken.getParameterized(BaseResponse.class, Medico.class).getType()
-            );
-            if (baseResponse == null || !baseResponse.isSuccess()) {
-                callback.onFailure();
-                return;
-            }
-            if (!baseResponse.isSuccess()) {
-                callback.onFailure();
-                return;
-            }
+        new Thread(() -> {
+            try {
+                String response = HttpUtil.POST(Constants.BASE_URL_API, "/medicos", new Gson().toJson(medico));
+                if (response == null) {
+                    callback.onFailure();
+                    return;
+                }
+                BaseResponse<Medico> baseResponse = new Gson().fromJson(
+                        response,
+                        TypeToken.getParameterized(BaseResponse.class, Medico.class).getType()
+                );
+                if (baseResponse == null || !baseResponse.isSuccess()) {
+                    callback.onFailure();
+                    return;
+                }
+                if (!baseResponse.isSuccess()) {
+                    callback.onFailure();
+                    return;
+                }
 
-            callback.onSuccess(baseResponse.getData());
-        } catch (Exception e) {
-            e.printStackTrace();
-            callback.onFailure();
-        }
+                callback.onSuccess(baseResponse.getData());
+            } catch (Exception e) {
+                e.printStackTrace();
+                callback.onFailure();
+            }
+        }).start();
     }
 }
