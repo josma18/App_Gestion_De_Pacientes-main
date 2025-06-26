@@ -5,6 +5,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -14,6 +15,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.sise.app_gestion_de_pacientes.R;
 import com.sise.app_gestion_de_pacientes.entities.Paciente;
+import com.sise.app_gestion_de_pacientes.shared.Message;
 import com.sise.app_gestion_de_pacientes.viewmodel.PacienteViewModel;
 
 import java.text.SimpleDateFormat;
@@ -27,6 +29,7 @@ public class PerfilRegistrarPacientesActivity extends AppCompatActivity {
     private EditText etNumeroDocumento, etNombres, etApellidos, etFechaNacimiento, etTelefono, etCorreo, etDireccion;
     private Spinner spSexo, spTipoDocumento;
     private PacienteViewModel pacienteViewModel;
+    private ProgressBar pbLoading;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +46,9 @@ public class PerfilRegistrarPacientesActivity extends AppCompatActivity {
         etCorreo = findViewById(R.id.et_correo);
         etDireccion = findViewById(R.id.et_direccion);
         spSexo = findViewById(R.id.spn_sexo);
+        pbLoading = findViewById(R.id.activityregistrapaciente_pb_loading);
+
+
 
         ArrayAdapter<CharSequence> adapterSexo = ArrayAdapter.createFromResource(this, R.array.sexo_array, android.R.layout.simple_spinner_item);
         adapterSexo.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -55,14 +61,23 @@ public class PerfilRegistrarPacientesActivity extends AppCompatActivity {
         pacienteViewModel = new ViewModelProvider(this).get(PacienteViewModel.class);
 
         pacienteViewModel.getInsertarPacienteStatus().observe(this, new Observer<Boolean>() {
-            @Override
+            /*@Override
             public void onChanged(Boolean success) {
                 if (success != null) {
                     String mensaje = success ? "¡Se ha insertado el Paciente correctamente!" : "¡Ocurrió un error al registrar!";
-                    Toast.makeText(getApplicationContext(), mensaje, Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), Message.INTENTAR_MAS_TARDE, Toast.LENGTH_LONG).show();
                 }
-            }
+            }*/
+
+
+
         });
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        pbLoading.setVisibility(View.VISIBLE);
     }
 
     public void onClickRegistrarPaciente(View view) {

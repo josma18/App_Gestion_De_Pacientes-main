@@ -7,16 +7,18 @@ import androidx.lifecycle.ViewModel;
 import com.sise.app_gestion_de_pacientes.entities.Paciente;
 import com.sise.app_gestion_de_pacientes.repositories.PacienteRepository;
 import com.sise.app_gestion_de_pacientes.shared.Callback;
+import com.sise.app_gestion_de_pacientes.shared.LiveDataResponse;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 public class PacienteViewModel extends ViewModel {
-    private final MutableLiveData<Boolean> insertarPacienteStatus = new MutableLiveData<>();
+
+    private final MutableLiveData<LiveDataResponse<Boolean>> insertarPacienteLiveData = new MutableLiveData<>();
     private final PacienteRepository pacienteRepository = new PacienteRepository();
     private final ExecutorService executorService = Executors.newSingleThreadExecutor();
 
-    public LiveData<Boolean> getInsertarPacienteStatus() {
-        return insertarPacienteStatus;
+    public LiveData<LiveDataResponse<Boolean>> getInsertarPacienteStatus() {
+        return insertarPacienteLiveData;
     }
 
     public void insertarPaciente(Paciente paciente) {
@@ -24,11 +26,11 @@ public class PacienteViewModel extends ViewModel {
             pacienteRepository.insertarPaciente(paciente, new Callback<Paciente>() {
                 @Override
                 public void onSuccess(Paciente result) {
-                    insertarPacienteStatus.postValue(true);
+                    insertarPacienteLiveData.postValue(LiveDataResponse.success(true));
                 }
                 @Override
                 public void onFailure() {
-                    insertarPacienteStatus.postValue(false);
+                    insertarPacienteLiveData.postValue(LiveDataResponse.error());
                 }
             });
         });

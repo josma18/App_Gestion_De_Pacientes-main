@@ -86,10 +86,10 @@ public class PerfilRegistrarMedicoActivity extends AppCompatActivity {
 
         // Observador para resultado de inserción
         medicoViewModel.getInsertarMedicoStatus().observe(this, success -> {
-            String mensaje = success ? "¡Médico registrado correctamente!" : "Error al registrar médico.";
+            /*String mensaje = success ? "¡Médico registrado correctamente!" : "Error al registrar médico.";
             Toast.makeText(getApplicationContext(), mensaje, Toast.LENGTH_LONG).show();
-        });
-    }
+        });*/
+    };
 
     public void onClickRegistrarMedico(View view) {
         Medico medico = validarCampos(view);
